@@ -18,3 +18,20 @@ RECIPES_FILE = 'recipes.txt'
 
 book = create_cooking_book(RECIPES_FILE)
 print(book)
+
+
+def get_shop_list_by_dishes(dishes, person_count):
+    ingredients = dict()
+    for dish in dishes:
+        if dish not in book:
+            raise AttributeError(f"Атрибута {dish} нет в списке рецептов. См. файл рецептов - {RECIPES_FILE}")
+        for i in book[dish]:
+            ingredient_name, quantity, measure = i.values()
+            if ingredient_name not in ingredients:
+                ingredients[ingredient_name] = {'measure': measure, 'quantity': quantity * person_count}
+            else:
+                ingredients[ingredient_name]['quantity'] += quantity * person_count
+    return ingredients
+
+
+print(get_shop_list_by_dishes(['Омлет', 'Фахитос'], 2))
